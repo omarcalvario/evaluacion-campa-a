@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#4b176e">
+  <title>Experiencias que dejan huella | Evaluación UVP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">UVP</span><span>Universidad del Valle de Puebla</span></div>
+    <span class="topbar-label">Estudio de percepción · 2026</span>
+  </header>
+
+  <main class="app-shell">
+    <section class="intro panel" data-screen="welcome">
+      <div class="eyebrow">Campaña institucional</div>
+      <h1>Experiencias que<br><em>dejan huella</em></h1>
+      <p class="lead">Queremos conocer tu primera impresión sobre una propuesta de comunicación de UVP. No hay respuestas correctas o incorrectas: responde con honestidad.</p>
+      <div class="intro-meta"><span>⏱ 3–5 minutos</span><span>◉ Respuestas anónimas</span></div>
+      <button class="button button-primary start-button" type="button">Comenzar encuesta <span>→</span></button>
+      <p class="privacy-note">Tus respuestas se guardan en este dispositivo y se utilizan únicamente para fines de investigación de la campaña.</p>
+    </section>
+
+    <section class="select-proposal panel hidden" data-screen="select">
+      <div class="eyebrow">Paso 1 · Elige una pieza</div>
+      <h2>¿Qué propuesta quieres evaluar?</h2>
+      <p class="selection-intro">Observa las piezas y selecciona una. Después te haremos unas preguntas sobre tu primera impresión.</p>
+      <div class="proposal-grid" id="proposal-grid"></div>
+    </section>
+
+    <section class="survey panel hidden" data-screen="survey">
+      <div class="survey-head">
+        <div><div class="eyebrow" id="section-kicker">Tu perfil</div><h2 id="section-title">Para comenzar</h2></div>
+        <div class="counter"><strong id="step-number">1</strong><span>/</span><span id="step-total">4</span></div>
+      </div>
+      <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+      <form id="survey-form" novalidate>
+        <div id="step-content"></div>
+        <div class="form-actions"><button class="button button-secondary" id="back-button" type="button">← Atrás</button><button class="button button-primary" id="next-button" type="button">Continuar <span>→</span></button></div>
+      </form>
+    </section>
+
+    <section class="success panel hidden" data-screen="success">
+      <div class="success-icon">✓</div><div class="eyebrow">Respuesta registrada</div>
+      <h2>Gracias por compartir tu experiencia.</h2>
+      <p id="success-copy">Tu opinión nos ayuda a construir comunicaciones más relevantes para la comunidad UVP.</p>
+      <div class="response-code"><span>Código de respuesta</span><strong id="response-code"></strong></div>
+      <button class="button button-primary new-response" type="button">Registrar otra respuesta</button>
+    </section>
+
+    <section class="admin panel hidden" data-screen="admin">
+      <div class="eyebrow">Gestión local</div><h2>Respuestas guardadas</h2><p class="muted">Estas respuestas están almacenadas en este navegador. Descárgalas para analizarlas o compartirlas.</p>
+      <div class="admin-stats"><div><strong id="response-count">0</strong><span>respuestas</span></div><div><strong id="storage-status">Local</strong><span>almacenamiento</span></div></div>
+      <div class="form-actions"><button class="button button-primary" id="download-csv" type="button">Descargar CSV</button><button class="button button-secondary" id="download-json" type="button">Descargar JSON</button><button class="button button-danger" id="clear-data" type="button">Borrar datos</button></div>
+    </section>
+  </main>
+  <footer><span>UVP · Experiencias que dejan huella</span><button type="button" class="admin-link" id="admin-link">Panel de respuestas</button></footer>
+  <script src="app.js"></script>
+</body>
+</html>
