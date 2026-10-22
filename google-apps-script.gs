@@ -7,8 +7,28 @@
  * 4. Copia la URL de la implementación en index.html antes de app.js:
  *    <script>window.UVP_ENDPOINT = 'TU_URL';</script>
  */
-const SHEET_ID = 'REEMPLAZA_CON_EL_ID_DE_TU_HOJA';
+const SHEET_ID = '1j-MHNZhJbBRTqt0ocC4KMhIe4PDyenBoeKKKiEhqeoE';
 const SHEET_NAME = 'Respuestas';
+
+function doGet() {
+  try {
+    const spreadsheet = SpreadsheetApp.openById(SHEET_ID);
+    const sheet = spreadsheet.getSheetByName(SHEET_NAME)
+      || spreadsheet.insertSheet(SHEET_NAME);
+    return ContentService.createTextOutput(JSON.stringify({
+      ok: true,
+      spreadsheet: spreadsheet.getName(),
+      sheet: sheet.getName(),
+      rows: sheet.getLastRow()
+    })).setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    console.error(error.stack || error);
+    return ContentService.createTextOutput(JSON.stringify({
+      ok: false,
+      error: String(error)
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
 
 function doPost(e) {
   try {
@@ -27,7 +47,7 @@ function doPost(e) {
     return ContentService.createTextOutput(JSON.stringify({ ok: true }))
       .setMimeType(ContentService.MimeType.JSON);
   } catch (error) {
-    return ContentService.createTextOutput(JSON.stringify({ ok: false, error: String(error) }))
-      .setMimeType(ContentService.MimeType.JSON);
+    console.error(error.stack || error);
+    throw error;
   }
 }
