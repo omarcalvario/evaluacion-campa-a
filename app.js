@@ -1,25 +1,25 @@
 /*
  * CONFIGURACIÓN: agrega tus piezas gráficas en este arreglo.
- * Ejemplo: { id:'pieza-1', name:'Ciencias de la Salud', image:'assets/salud.jpg' }
+ * Ejemplo: { id:'pieza-1', name:'Ciencias de la Salud', image:'assets/salud.webp' }
  * Si no hay imagen, la encuesta muestra una tarjeta de referencia.
  */
 const PROPOSALS = [
-  { id:'nueva-01', name:'Propuesta 1', image:'assets/nueva-01.jpeg' },
-  { id:'nueva-02', name:'Propuesta 2', image:'assets/nueva-02.jpeg' },
-  { id:'nueva-03', name:'Propuesta 3', image:'assets/nueva-03.jpeg' },
-  { id:'nueva-04', name:'Propuesta 4', image:'assets/nueva-04.png' },
-  { id:'nueva-05', name:'Propuesta 5', image:'assets/nueva-05.png' },
-  { id:'nueva-06', name:'Propuesta 6', image:'assets/nueva-06.png' },
-  { id:'nueva-07', name:'Propuesta 7', image:'assets/nueva-07.png' },
-  { id:'nueva-08', name:'Propuesta 8', image:'assets/nueva-08.png' },
-  { id:'nueva-09', name:'Propuesta 9', image:'assets/nueva-09.png' },
-  { id:'nueva-10', name:'Propuesta 10', image:'assets/nueva-10.png' },
-  { id:'nueva-11', name:'Propuesta 11', image:'assets/nueva-11.png' },
-  { id:'nueva-12', name:'Propuesta 12', image:'assets/nueva-12.png' },
-  { id:'nueva-13', name:'Propuesta 13', image:'assets/nueva-13.png' },
-  { id:'nueva-15', name:'Propuesta 14', image:'assets/nueva-15.png' },
-  { id:'nueva-16', name:'Propuesta 15', image:'assets/nueva-16.png' },
-  { id:'nueva-17', name:'Propuesta 16', image:'assets/nueva-17.png' }
+  { id:'nueva-01', name:'Propuesta 1', image:'assets/nueva-01.webp' },
+  { id:'nueva-02', name:'Propuesta 2', image:'assets/nueva-02.webp' },
+  { id:'nueva-03', name:'Propuesta 3', image:'assets/nueva-03.webp' },
+  { id:'nueva-04', name:'Propuesta 4', image:'assets/nueva-04.webp' },
+  { id:'nueva-05', name:'Propuesta 5', image:'assets/nueva-05.webp' },
+  { id:'nueva-06', name:'Propuesta 6', image:'assets/nueva-06.webp' },
+  { id:'nueva-07', name:'Propuesta 7', image:'assets/nueva-07.webp' },
+  { id:'nueva-08', name:'Propuesta 8', image:'assets/nueva-08.webp' },
+  { id:'nueva-09', name:'Propuesta 9', image:'assets/nueva-09.webp' },
+  { id:'nueva-10', name:'Propuesta 10', image:'assets/nueva-10.webp' },
+  { id:'nueva-11', name:'Propuesta 11', image:'assets/nueva-11.webp' },
+  { id:'nueva-12', name:'Propuesta 12', image:'assets/nueva-12.webp' },
+  { id:'nueva-13', name:'Propuesta 13', image:'assets/nueva-13.webp' },
+  { id:'nueva-15', name:'Propuesta 14', image:'assets/nueva-15.webp' },
+  { id:'nueva-16', name:'Propuesta 15', image:'assets/nueva-16.webp' },
+  { id:'nueva-17', name:'Propuesta 16', image:'assets/nueva-17.webp' }
 ];
 const STORAGE_KEY = 'uvp_experiencias_respuestas_v1';
 const DRAFT_KEY = 'uvp_experiencias_borrador_v1';
