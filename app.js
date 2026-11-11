@@ -4,28 +4,22 @@
  * Si no hay imagen, la encuesta muestra una tarjeta de referencia.
  */
 const PROPOSALS = [
-  { id:'pieza-1', name:'Pieza gráfica 01', image:'assets/pieza-1.png' },
-  { id:'pieza-2', name:'Pieza gráfica 02', image:'assets/pieza-2.png' },
-  { id:'pieza-3', name:'Pieza gráfica 03', image:'assets/pieza-3.png' },
-  { id:'pieza-4', name:'Pieza gráfica 04', image:'assets/pieza-4.png' },
-  { id:'pieza-5', name:'Pieza gráfica 05', image:'assets/pieza-5.png' },
-  { id:'pieza-6', name:'Pieza gráfica 06', image:'assets/pieza-6.png' },
-  { id:'pieza-7', name:'Pieza gráfica 07', image:'assets/pieza-7.png' },
-  { id:'pieza-8', name:'Pieza gráfica 08', image:'assets/pieza-8.jpg' },
-  { id:'pieza-9', name:'Pieza gráfica 09', image:'assets/pieza-9.jpg' },
-  { id:'pieza-10', name:'Pieza gráfica 10', image:'assets/pieza-10.jpg' },
-  { id:'pieza-11', name:'Pieza gráfica 11', image:'assets/pieza-11.jpg' },
-  { id:'pieza-12', name:'Pieza gráfica 12', image:'assets/pieza-12.png' },
-  { id:'pieza-13', name:'Pieza gráfica 13', image:'assets/pieza-13.png' },
-  { id:'pieza-14', name:'Pieza gráfica 14', image:'assets/pieza-14.png' },
-  { id:'pieza-15', name:'Pieza gráfica 15', image:'assets/pieza-15.png' },
-  { id:'pieza-16', name:'Pieza gráfica 16', image:'assets/pieza-16.png' },
-  { id:'pieza-17', name:'Pieza gráfica 17', image:'assets/pieza-17.png' },
-  { id:'pieza-18', name:'Pieza gráfica 18', image:'assets/pieza-18.png' },
-  { id:'pieza-19', name:'Pieza gráfica 19', image:'assets/pieza-19.png' },
-  { id:'pieza-20', name:'Pieza gráfica 20', image:'assets/pieza-20.webp' },
-  { id:'pieza-21', name:'Pieza gráfica 21', image:'assets/pieza-21.png' },
-  { id:'pieza-22', name:'Pieza gráfica 22', image:'assets/pieza-22.png' }
+  { id:'nueva-01', name:'Propuesta 1', image:'assets/nueva-01.jpeg' },
+  { id:'nueva-02', name:'Propuesta 2', image:'assets/nueva-02.jpeg' },
+  { id:'nueva-03', name:'Propuesta 3', image:'assets/nueva-03.jpeg' },
+  { id:'nueva-04', name:'Propuesta 4', image:'assets/nueva-04.png' },
+  { id:'nueva-05', name:'Propuesta 5', image:'assets/nueva-05.png' },
+  { id:'nueva-06', name:'Propuesta 6', image:'assets/nueva-06.png' },
+  { id:'nueva-07', name:'Propuesta 7', image:'assets/nueva-07.png' },
+  { id:'nueva-08', name:'Propuesta 8', image:'assets/nueva-08.png' },
+  { id:'nueva-09', name:'Propuesta 9', image:'assets/nueva-09.png' },
+  { id:'nueva-10', name:'Propuesta 10', image:'assets/nueva-10.png' },
+  { id:'nueva-11', name:'Propuesta 11', image:'assets/nueva-11.png' },
+  { id:'nueva-12', name:'Propuesta 12', image:'assets/nueva-12.png' },
+  { id:'nueva-13', name:'Propuesta 13', image:'assets/nueva-13.png' },
+  { id:'nueva-15', name:'Propuesta 14', image:'assets/nueva-15.png' },
+  { id:'nueva-16', name:'Propuesta 15', image:'assets/nueva-16.png' },
+  { id:'nueva-17', name:'Propuesta 16', image:'assets/nueva-17.png' }
 ];
 const STORAGE_KEY = 'uvp_experiencias_respuestas_v1';
 const DRAFT_KEY = 'uvp_experiencias_borrador_v1';
@@ -55,10 +49,11 @@ function renderStep(){
   const id=steps[currentStep], content=$('#step-content'); let html='';
   $('#step-number').textContent=currentStep+1; $('#step-total').textContent=steps.length; $('#progress-bar').style.width=`${((currentStep+1)/steps.length)*100}%`;
   const proposal=PROPOSALS.find(item=>item.id===selectedProposalId)||PROPOSALS[0], p=answers.proposals[proposal.id]||{};
+  const proposalVisual=`<div class="visual-card"><img src="${escapeHtml(proposal.image)}" alt="${escapeHtml(proposal.name)}"></div>`;
   if(id==='profile') { $('#section-kicker').textContent='Tu perfil'; $('#section-title').textContent='Conocerte nos ayuda'; html=field('¿Qué edad tienes?','age',['14–16 años','17–18 años','19–23 años','24 años o más'],answers.age)+field('¿Cuál opción describe mejor tu situación actual?','situation',['Estudio secundaria','Estudio preparatoria','Estoy buscando universidad','Estudio una licenciatura','Soy madre, padre o tutor','Otro'],answers.situation); }
-  if(id==='impression') { $('#section-kicker').textContent='Primera impresión'; $('#section-title').textContent='Mira antes de responder'; html=`<div class="visual-card"><img src="${escapeHtml(proposal.image)}" alt="${escapeHtml(proposal.name)}"></div>${textField('¿Qué es lo primero que llama tu atención de esta imagen?','firstAttention',p.firstAttention)}${textField('¿Qué mensaje crees que intenta transmitir?','message',p.message)}${scaleField('¿Qué tan atractiva te parece visualmente?','attractiveness',p.attractiveness)}`; }
-  if(id==='connection') { $('#section-kicker').textContent='Conexión emocional'; $('#section-title').textContent='¿Qué te hace sentir?'; html=`<div class="question"><span class="question-label">¿Qué emociones o sensaciones te transmite esta imagen?</span><p class="question-help">Selecciona hasta dos opciones.</p>${optionGroup('emotions',['Inspiración','Entusiasmo','Confianza','Curiosidad','Sentido de pertenencia','Indiferencia','Confusión','Otra'],'checkbox',p.emotions||'')}<p class="check-note">Puedes elegir máximo dos.</p></div>${scaleField('¿Qué tanto te identificas con lo que muestra esta campaña?','identification',p.identification)}${scaleField('¿Qué tan auténtica o realista te parece la situación?','authenticity',p.authenticity)}`; }
-  if(id==='effectiveness') { $('#section-kicker').textContent='Efectividad'; $('#section-title').textContent='Tu opinión final'; html=scaleField('Después de ver esta imagen, ¿qué tanto te interesa conocer más sobre la universidad?','interest',p.interest)+textField('¿Qué mejorarías de esta propuesta para que llamara más tu atención?','improvement',p.improvement)+field('En comparación con otras campañas universitarias, ¿cómo percibes esta propuesta?','comparison',['Mucho más interesante','Algo más interesante','Similar a otras campañas','Algo menos interesante','Mucho menos interesante','No recuerdo otras campañas'],p.comparison); }
+  if(id==='impression') { $('#section-kicker').textContent='Primera impresión'; $('#section-title').textContent='Mira antes de responder'; html=`${proposalVisual}${textField('¿Qué es lo primero que llama tu atención de esta imagen?','firstAttention',p.firstAttention)}${textField('¿Qué mensaje crees que intenta transmitir?','message',p.message)}${scaleField('¿Qué tan atractiva te parece visualmente?','attractiveness',p.attractiveness)}`; }
+  if(id==='connection') { $('#section-kicker').textContent='Conexión emocional'; $('#section-title').textContent='¿Qué te hace sentir?'; html=`${proposalVisual.replace('visual-card','visual-card visual-card-compact')}<div class="question"><span class="question-label">¿Qué emociones o sensaciones te transmite esta imagen?</span><p class="question-help">Selecciona hasta dos opciones.</p>${optionGroup('emotions',['Inspiración','Entusiasmo','Confianza','Curiosidad','Sentido de pertenencia','Indiferencia','Confusión','Otra'],'checkbox',p.emotions||'')}<p class="check-note">Puedes elegir máximo dos.</p></div>${scaleField('¿Qué tanto te identificas con lo que muestra esta campaña?','identification',p.identification)}${scaleField('¿Qué tan auténtica o realista te parece la situación?','authenticity',p.authenticity)}`; }
+  if(id==='effectiveness') { $('#section-kicker').textContent='Efectividad'; $('#section-title').textContent='Tu opinión final'; html=proposalVisual.replace('visual-card','visual-card visual-card-compact')+scaleField('Después de ver esta imagen, ¿qué tanto te interesa conocer más sobre la universidad?','interest',p.interest)+textField('¿Qué mejorarías de esta propuesta para que llamara más tu atención?','improvement',p.improvement)+field('En comparación con otras campañas universitarias, ¿cómo percibes esta propuesta?','comparison',['Mucho más interesante','Algo más interesante','Similar a otras campañas','Algo menos interesante','Mucho menos interesante','No recuerdo otras campañas'],p.comparison); }
   content.innerHTML=html; $('#back-button').style.visibility=currentStep?'visible':'hidden'; $('#next-button').innerHTML=currentStep===steps.length-1?'Enviar respuesta <span>✓</span>':'Continuar <span>→</span>'; window.scrollTo({top:0,behavior:'smooth'});
 }
 function readStep(){
@@ -74,5 +69,5 @@ function sendToEndpoint(record){const endpoint=window.UVP_ENDPOINT||'';if(endpoi
 function download(type){const records=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');if(!records.length){alert('Todavía no hay respuestas guardadas.');return;}let data,ext,mime;if(type==='json'){data=JSON.stringify(records,null,2);ext='json';mime='application/json';}else{const rows=records.map(r=>{const p=r.proposals[r.selectedProposalId]||{};const proposal=PROPOSALS.find(x=>x.id===r.selectedProposalId)||{};return [r.id,r.createdAt,proposal.name,r.age,r.situation,p.firstAttention,p.message,p.attractiveness,(p.emotions||[]).join(' | '),p.identification,p.authenticity,p.interest,p.improvement,p.comparison].map(csv).join(',')});data=['id,fecha,pieza,edad,situacion,primera_atencion,mensaje,atractivo,emociones,identificacion,autenticidad,interes,mejoras,comparacion',...rows].join('\n');ext='csv';mime='text/csv;charset=utf-8';}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:mime}));a.download=`respuestas-uvp.${ext}`;a.click();URL.revokeObjectURL(a.href);}
 function csv(v=''){return `"${String(v).replace(/"/g,'""')}"`;}
 
-$('.start-button').onclick=()=>{renderProposalGrid();show('select');};$('#next-button').onclick=()=>{const data=readStep();if(!valid(data))return;if(currentStep<steps.length-1){currentStep++;renderStep();}else submit();};$('#back-button').onclick=()=>{readStep();if(currentStep){currentStep--;renderStep();}else{show('select');renderProposalGrid();}};$('.new-response').onclick=()=>{answers={proposals:{}};selectedProposalId=null;show('welcome');};$('#admin-link').onclick=()=>{show('admin');$('#response-count').textContent=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]').length;};$('#download-csv').onclick=()=>download('csv');$('#download-json').onclick=()=>download('json');$('#clear-data').onclick=()=>{if(confirm('¿Borrar todas las respuestas de este navegador?')){localStorage.removeItem(STORAGE_KEY);$('#response-count').textContent='0';}};
+$('.start-button').onclick=()=>{renderProposalGrid();show('select');};$('#next-button').onclick=()=>{const data=readStep();if(!valid(data))return;if(currentStep<steps.length-1){currentStep++;renderStep();}else submit();};$('#back-button').onclick=()=>{readStep();if(currentStep){currentStep--;renderStep();}else{show('select');renderProposalGrid();}};$('.new-response').onclick=()=>{answers={proposals:{}};selectedProposalId=null;show('welcome');};$('#admin-link').onclick=()=>{show('admin');$('#response-count').textContent=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]').length;};$('#home-from-admin').onclick=()=>{show('welcome');window.scrollTo({top:0,behavior:'smooth'});};$('#download-csv').onclick=()=>download('csv');$('#download-json').onclick=()=>download('json');$('#clear-data').onclick=()=>{if(confirm('¿Borrar todas las respuestas de este navegador?')){localStorage.removeItem(STORAGE_KEY);$('#response-count').textContent='0';}};
 document.addEventListener('change',e=>{if(e.target.matches('input[type=checkbox][name=emotions]')){const checked=[...document.querySelectorAll('input[name=emotions]:checked')];if(checked.length>2)e.target.checked=false;}});
