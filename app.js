@@ -16,9 +16,9 @@ const PROPOSALS = [
   { id:'nueva-13', name:'Propuesta 13', image:'assets/nueva-13.webp' },
   { id:'nueva-16', name:'Propuesta 15', image:'assets/nueva-16.webp' },
   { id:'nueva-17', name:'Propuesta 16', image:'assets/nueva-17.webp' },
-  { id:'campana-cuadro', name:'Campaña · Cuadro', image:'assets/campana-cuadro.jpg' },
-  { id:'campana-historia', name:'Campaña · Historia', image:'assets/campana-historia.jpg' },
-  { id:'campana-horizontal', name:'Campaña · Horizontal', image:'assets/campana-horizontal.jpg' }
+  { id:'campana-cuadro', name:'Propuesta 17', image:'assets/campana-cuadro.jpg' },
+  { id:'campana-historia', name:'Propuesta 18', image:'assets/campana-historia.jpg' },
+  { id:'campana-horizontal', name:'Propuesta 19', image:'assets/campana-horizontal.jpg' }
 ];
 const STORAGE_KEY = 'uvp_experiencias_respuestas_v1';
 const DRAFT_KEY = 'uvp_experiencias_borrador_v1';
