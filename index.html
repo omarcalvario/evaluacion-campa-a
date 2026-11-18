@@ -17,19 +17,21 @@
   </header>
 
   <main class="app-shell">
+    <button class="step-home step-home-floating hidden" id="step-home-fixed" type="button" aria-label="Volver al inicio" title="Volver al inicio">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7M5.5 9v11h13V9M9 20v-6h6v6"/></svg>
+    </button>
     <section class="intro panel" data-screen="welcome">
       <div class="eyebrow">Campaña institucional</div>
       <h1>Experiencias que<br><em>dejan huella</em></h1>
       <p class="lead">Queremos conocer tu primera impresión sobre una propuesta de comunicación de UVP. No hay respuestas correctas o incorrectas: responde con honestidad.</p>
       <div class="intro-meta"><span>⏱ 3–5 minutos</span><span>◉ Respuestas anónimas</span></div>
       <button class="button button-primary start-button" type="button">Comenzar encuesta <span>→</span></button>
-      <p class="privacy-note">Tus respuestas se guardan en este dispositivo y se utilizan únicamente para fines de investigación de la campaña.</p>
     </section>
 
     <section class="select-proposal panel hidden" data-screen="select">
       <div class="eyebrow">Paso 1 · Elige una pieza</div>
-      <h2>¿Qué propuesta quieres evaluar?</h2>
-      <p class="selection-intro">Observa las piezas y selecciona una. Después te haremos unas preguntas sobre tu primera impresión.</p>
+      <h2>¿Qué propuesta te atrae más?</h2>
+      <p class="selection-intro">Primero evaluarás una de las imágenes de propuestas correctas y, al terminar su cuestionario, elegirás una comparativa para evaluarla también.</p>
       <div class="proposal-grid" id="proposal-grid"></div>
     </section>
 

@@ -8,9 +8,9 @@ Abre `index.html` o publica el repositorio en GitHub Pages. Las respuestas se gu
 
 ## Selección de piezas gráficas
 
-Las 22 imágenes proporcionadas están en `assets/`. Al comenzar, el participante verá una galería de miniaturas, elegirá una pieza y luego evaluará únicamente esa propuesta. La pieza elegida se guarda junto con las respuestas y aparece también en el CSV exportado.
+Al comenzar, el participante elige una de las seis imágenes de `propuestas correctas/` y responde el cuestionario. Después elige una de las dos imágenes de `comparativas/` y responde nuevamente el cuestionario. Ambas selecciones y sus respuestas se guardan en el registro y aparecen en el CSV exportado.
 
-Para cambiar nombres o agregar piezas, edita el arreglo `PROPOSALS` en `app.js` y coloca las nuevas imágenes dentro de `assets`.
+Para cambiar nombres o agregar piezas, edita el arreglo `PROPOSALS` en `app.js` y coloca las imágenes en la carpeta correspondiente.
 
 ## Importante: respuestas de varios participantes
 

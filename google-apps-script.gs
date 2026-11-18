@@ -35,14 +35,29 @@ function doPost(e) {
     const body = JSON.parse(e.postData.contents);
     const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME)
       || SpreadsheetApp.openById(SHEET_ID).insertSheet(SHEET_NAME);
-    const proposal = body.proposals && body.proposals[body.selectedProposalId] || {};
-    const headers = ['id','fecha','pieza_id','edad','situación','primera_atención','mensaje','atractivo','emociones','identificación','autenticidad','interés','mejoras','comparación'];
-    if (sheet.getLastRow() === 0) sheet.appendRow(headers);
+    const proposalId = body.proposalSelection || body.selectedProposalId;
+    const comparativeId = body.comparativeId || body.comparativeSelection;
+    const proposal = body.proposals && body.proposals[proposalId] || {};
+    const comparative = body.proposals && body.proposals[comparativeId] || {};
+    const questionHeaders = ['primera_atención','mensaje','atractivo','emociones','otra_emoción','identificación','autenticidad','interés','universidad_publicidad','atractivo_publicidad'];
+    const headers = [
+      'id','fecha','pieza_id','edad','situación', ...questionHeaders,
+      'comparativa_id', ...questionHeaders.map(header => `comparativa_${header}`)
+    ];
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(headers);
+    } else if (sheet.getLastColumn() < headers.length) {
+      sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    }
+    const answersFor = answers => [
+      answers.firstAttention || '', answers.message || '', answers.attractiveness || '',
+      (answers.emotions || []).join(' | '), answers.emotionsOther || '',
+      answers.identification || '', answers.authenticity || '', answers.interest || '',
+      answers.recentUniversityAd || '', answers.adAttraction || ''
+    ];
     sheet.appendRow([
-      body.id, body.createdAt, body.selectedProposalId, body.age, body.situation, proposal.firstAttention,
-      proposal.message, proposal.attractiveness, (proposal.emotions || []).join(' | '),
-      proposal.identification, proposal.authenticity, proposal.interest,
-      proposal.improvement, proposal.comparison
+      body.id, body.createdAt, proposalId, body.age, body.situation,
+      ...answersFor(proposal), comparativeId, ...answersFor(comparative)
     ]);
     return ContentService.createTextOutput(JSON.stringify({ ok: true }))
       .setMimeType(ContentService.MimeType.JSON);
