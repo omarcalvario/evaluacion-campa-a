@@ -50,11 +50,13 @@ function doPost(e) {
     } else if (sheet.getLastColumn() < headers.length) {
       sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
     }
+    const formatAnswer = answer => Array.isArray(answer) ? answer.join(' | ') : answer || '';
     const answersFor = answers => [
-      answers.firstAttention || '', answers.message || '', answers.attractiveness || '',
-      (answers.emotions || []).join(' | '), answers.emotionsOther || '',
-      answers.identification || '', answers.authenticity || '', answers.interest || '',
-      answers.recentUniversityAd || '', answers.adAttraction || ''
+      formatAnswer(answers.firstAttention), formatAnswer(answers.message),
+      formatAnswer(answers.attractiveness), formatAnswer(answers.emotions),
+      formatAnswer(answers.emotionsOther), formatAnswer(answers.identification),
+      formatAnswer(answers.authenticity), formatAnswer(answers.interest),
+      formatAnswer(answers.recentUniversityAd), formatAnswer(answers.adAttraction)
     ];
     sheet.appendRow([
       body.id, body.createdAt, proposalId, body.age, body.situation,
