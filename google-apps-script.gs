@@ -42,7 +42,8 @@ function doPost(e) {
     const questionHeaders = ['primera_atención','mensaje','atractivo','emociones','otra_emoción','identificación','autenticidad','interés','universidad_publicidad','atractivo_publicidad'];
     const headers = [
       'id','fecha','pieza_id','edad','situación', ...questionHeaders,
-      'comparativa_id', ...questionHeaders.map(header => `comparativa_${header}`)
+      'comparativa_id', ...questionHeaders.map(header => `comparativa_${header}`),
+      'selecciones_comparativa'
     ];
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(headers);
@@ -57,7 +58,8 @@ function doPost(e) {
     ];
     sheet.appendRow([
       body.id, body.createdAt, proposalId, body.age, body.situation,
-      ...answersFor(proposal), comparativeId, ...answersFor(comparative)
+      ...answersFor(proposal), comparativeId, ...answersFor(comparative),
+      (comparative.comparativeChoices || []).join(' | ')
     ]);
     return ContentService.createTextOutput(JSON.stringify({ ok: true }))
       .setMimeType(ContentService.MimeType.JSON);

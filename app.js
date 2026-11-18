@@ -16,7 +16,7 @@ const PROPOSALS = [
 const STORAGE_KEY = 'uvp_experiencias_respuestas_v1';
 const DRAFT_KEY = 'uvp_experiencias_borrador_v1';
 const steps = ['profile', 'impression', 'connection', 'effectiveness'];
-function activeSteps(){ return selectionPhase==='comparative' ? steps.slice(1) : steps; }
+function activeSteps(){ return selectionPhase==='comparative' ? ['comparative-question'] : steps; }
 let currentStep = 0;
 let answers = loadDraft() || { proposals: {} };
 let selectedProposalId = answers.selectedProposalId || null;
@@ -67,10 +67,18 @@ function renderStep(){
   const proposal=PROPOSALS.find(item=>item.id===selectedProposalId)||PROPOSALS[0], p=answers.proposals[proposal.id]||{};
   const proposalVisual=`<div class="visual-card"><img src="${escapeHtml(proposal.image)}" alt="${escapeHtml(proposal.name)}"></div>`;
   if(id==='profile') { $('#section-kicker').textContent='Tu perfil'; $('#section-title').textContent='Conocerte nos ayuda'; html=ageSelectField('1. ¿Qué edad tienes?','age',answers.age)+field('2. ¿Cuál opción describe mejor tu situación actual?','situation',['Estudio preparatoria','Estoy buscando universidad','Soy madre, padre o tutor','Otro'],answers.situation); }
+  if(id==='comparative-question') {
+    const choices=proposal.id==='comparativo-1'
+      ? ['POV / Rompe la cuarta pared','Contrapicado / Liderazgo','Cenital / Dinamismo','Ángulo holandés / Energía','Primer plano / Conexión','Plano completo / Proyección','3/4 posterior / Seguridad','Plano entero / Cercanía']
+      : ['Vida universitaria','Ciencias de la vida','Ingenierías','Salud','Artes','Negocios'];
+    $('#section-kicker').textContent=proposal.name;
+    $('#section-title').textContent='¿Qué imagen se te hace más atractiva?';
+    html=`${proposalVisual}${checkboxField('Puedes elegir varias opciones.','comparativeChoices',choices,p.comparativeChoices||[])}`;
+  }
   if(id==='impression') { $('#section-kicker').textContent='Primera impresión'; $('#section-title').textContent='Mira antes de responder'; html=`${proposalVisual}${checkboxField('3. ¿Qué es lo primero que llama tu atención de esta imagen?','firstAttention',['Colores','Fotografía','Textos','Personajes'],p.firstAttention||[])}${field('4. ¿Qué piensas al ver esta imagen?','message',['Liderazgo','Aspiración','Genérico o irrelevante','Ninguna de las anteriores'],p.message)}${scaleField('5. ¿Qué tan atractiva te parece visualmente?','attractiveness',p.attractiveness)}`; }
   if(id==='connection') { $('#section-kicker').textContent='Conexión emocional'; $('#section-title').textContent='¿Qué te hace sentir?'; html=`${proposalVisual.replace('visual-card','visual-card visual-card-compact')}${checkboxField('6. ¿Qué emociones o sensaciones te transmite esta imagen?','emotions',['Confianza','Sentido de pertenencia','Indiferencia','Confusión','Otra'],p.emotions||[])}<div class="question other-answer ${p.emotions?.includes('Otra')?'':'hidden'}" id="emotions-other-wrap"><label class="question-label" for="emotionsOther">¿Cuál?</label><input class="text-input" id="emotionsOther" name="emotionsOther" type="text" maxlength="250" value="${escapeHtml(p.emotionsOther||'')}"></div>${scaleField('7. ¿Qué tanto te identificas con lo que muestra esta campaña?','identification',p.identification)}${scaleField('8. ¿Qué tan auténtica o realista te parece la situación?','authenticity',p.authenticity)}`; }
   if(id==='effectiveness') { $('#section-kicker').textContent='Efectividad'; $('#section-title').textContent='Tu opinión final'; html=proposalVisual.replace('visual-card','visual-card visual-card-compact')+scaleField('9. Después de ver esta imagen, ¿qué tanto te interesa conocer más sobre la universidad?','interest',p.interest)+textField('10. ¿De qué universidad recuerdas haber visto publicidad recientemente?','recentUniversityAd',p.recentUniversityAd)+textField('11. ¿Qué te atrajo de esa publicidad?','adAttraction',p.adAttraction); }
-  content.innerHTML=html; $('#back-button').style.visibility=currentStep?'visible':'hidden'; $('#next-button').innerHTML=currentStep===activeSteps().length-1?'Enviar respuesta <span>✓</span>':'Continuar <span>→</span>'; window.scrollTo({top:0,behavior:'smooth'});
+  content.innerHTML=html; $('#back-button').style.visibility=currentStep||selectionPhase==='comparative'?'visible':'hidden'; $('#next-button').innerHTML=currentStep===activeSteps().length-1?'Enviar respuesta <span>✓</span>':'Continuar <span>→</span>'; window.scrollTo({top:0,behavior:'smooth'});
 }
 function readStep(){
   const data={}; document.querySelectorAll('#step-content input:checked, #step-content input[type=number], #step-content input[type=text], #step-content textarea, #step-content select').forEach(el=>{if(el.type==='checkbox'){data[el.name]=data[el.name]||[];data[el.name].push(el.value);}else data[el.name]=el.value;});
@@ -78,6 +86,10 @@ function readStep(){
 }
 function valid(data){
   const step=activeSteps()[currentStep];
+  if(step==='comparative-question'){
+    if(!data.comparativeChoices?.length){alert('Selecciona al menos una opción.');return false;}
+    return true;
+  }
   const required=step==='profile'?['age','situation']:step==='impression'?['firstAttention','message','attractiveness']:step==='connection'?['emotions','identification','authenticity']:['interest','recentUniversityAd','adAttraction'];
   const missing=required.some(k=>!data[k]||(Array.isArray(data[k])&&!data[k].length)); if(missing){alert('Completa las preguntas para continuar.');return false;} if(step==='profile'&&(!Number.isInteger(Number(data.age))||Number(data.age)<14||Number(data.age)>100)){alert('Ingresa una edad válida entre 14 y 100 años.');return false;} if(step==='connection'&&data.emotions.includes('Otra')&&!data.emotionsOther?.trim()){alert('Especifica cuál emoción o sensación.');return false;} return true;
 }
@@ -113,9 +125,9 @@ function download(type){
       const proposalId=r.proposalSelection||r.selectedProposalId,p=r.proposals[proposalId]||{},c=r.proposals[r.comparativeId]||{};
       const proposal=PROPOSALS.find(x=>x.id===proposalId)||{},comparative=PROPOSALS.find(x=>x.id===r.comparativeId)||{};
       const values=obj=>fields.map(k=>Array.isArray(obj[k])?obj[k].join(' | '):obj[k]||'');
-      return [r.id,r.createdAt,proposal.name,comparative.name,r.age,r.situation,...values(p),...values(c)].map(csv).join(',');
+      return [r.id,r.createdAt,proposal.name,comparative.name,r.age,r.situation,...values(p),...values(c),(c.comparativeChoices||[]).join(' | ')].map(csv).join(',');
     });
-    data=[['id','fecha','propuesta','comparativa','edad','situacion',...headers.map(h=>`propuesta_${h}`),...headers.map(h=>`comparativa_${h}`)].join(','),...rows].join('\n');
+    data=[['id','fecha','propuesta','comparativa','edad','situacion',...headers.map(h=>`propuesta_${h}`),...headers.map(h=>`comparativa_${h}`),'selecciones_comparativa'].join(','),...rows].join('\n');
     ext='csv';mime='text/csv;charset=utf-8';
   }
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:mime}));a.download=`respuestas-uvp.${ext}`;a.click();URL.revokeObjectURL(a.href);
